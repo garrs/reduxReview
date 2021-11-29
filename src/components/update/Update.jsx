@@ -8,6 +8,7 @@ import { useState } from "react";
 import { updateUser2 } from "../../redux/userSlice";
 
 export default function Update() {
+  // sending name and email to the reducer will be our action payloads
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const user = useSelector((state) => state.user);
@@ -45,7 +46,7 @@ export default function Update() {
               <input
                 className="formInput"
                 type="text"
-                placeholder={user.user.name}
+                placeholder={user.name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -54,7 +55,7 @@ export default function Update() {
               <input
                 className="formInput"
                 type="text"
-                placeholder={user.user.email}
+                placeholder={user.email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>

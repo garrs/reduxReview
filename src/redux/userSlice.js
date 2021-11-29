@@ -57,6 +57,7 @@
 
 // export default userSlice.reducer;
 
+// this page is our reducer and actions
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
