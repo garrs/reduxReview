@@ -5,13 +5,14 @@ import "./update.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { updateUser2 } from "../../redux/userSlice";
+import { updateUser2, remove } from "../../redux/userSlice";
 
 export default function Update() {
   // sending name and email to the reducer will be our action payloads
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
+  const {userInfo, pending, error} = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const handleClick = (e) => {
@@ -21,13 +22,19 @@ export default function Update() {
     // with API
     dispatch(updateUser2({ name, email }));
   };
+  const handleDelete= (e) => {
+    e.preventDefault();
+    dispatch(remove());
+    alert(userInfo.name + ' ' + userInfo.email)
+  };
+
 
   return (
     <div className="update">
       <div className="updateWrapper">
         <h3 className="updateTitle">Update Your Account</h3>
         <Warning />
-        <button className="delete">Delete Account</button>
+        <button className="delete" onClick={handleDelete}>Delete Account</button>
         <div className="updateContainer">
           <form>
             <div className="formItem">
@@ -46,7 +53,7 @@ export default function Update() {
               <input
                 className="formInput"
                 type="text"
-                placeholder={user.name}
+                placeholder={userInfo.name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -55,7 +62,7 @@ export default function Update() {
               <input
                 className="formInput"
                 type="text"
-                placeholder={user.email}
+                placeholder={userInfo.email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -64,14 +71,14 @@ export default function Update() {
               <input className="formInput" type="password" />
             </div>
             <button
-              disabled={user.pending}
+              disabled={pending}
               className="updateButton"
               onClick={handleClick}
             >
               Update
             </button>
-            {user.error && <span className="error">Something went wrong!</span>}
-            {user.pending === false && (
+            {error && <span className="error">Something went wrong!</span>}
+            {pending === false && (
               <span className="success">Account has been updated!</span>
             )}
           </form>

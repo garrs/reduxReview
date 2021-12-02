@@ -63,11 +63,19 @@ import axios from "axios";
 
 export const updateUser2 = createAsyncThunk("users/update", async (user) => {
   const response = await axios.post(
-    "http://localhost:8800/api/users/1/update",
+    "http://localhost:8000/api/users/1/update",
     user
   );
   return response.data;
 });
+
+// export const deleteUser2 = createAsyncThunk("users/delete", async (user) => {
+//   const response = await axios.post(
+//     "http://localhost:8000/api/users/1/update",
+//     user
+//   );
+//   return response.data;
+// });
 
 export const userSlice = createSlice({
   name: "user",
@@ -79,7 +87,15 @@ export const userSlice = createSlice({
     pending: null,
     error: null,
   },
-  reducers: {},
+  // non-api
+  reducers: {
+    remove: (state) => {
+      state.userInfo.name = "";
+      state.userInfo.email = "";
+    },
+  },
+  // using api of updateUser2's createAsyncThunk
+  // https://redux-toolkit.js.org/api/createAsyncThunk
   extraReducers: {
     [updateUser2.pending]: (state) => {
       state.pending = true;
@@ -96,6 +112,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { updateStart, updateSuccess, updateFailure } = userSlice.actions;
+export const { updateStart, updateSuccess, updateFailure, remove } = userSlice.actions;
 
 export default userSlice.reducer;
